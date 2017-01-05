@@ -52,10 +52,10 @@ Therefore, the current user must be able to write and read from that directory.
 
 
 ### Contributors
-- @beeryardtech
-- @edouard-lopez
-- @aramboi
-- @kenanpelit
+- [beeryardtech](https://github.com/beeryardtech)
+- [edouard-lopez](https://github.com/edouard-lopez)
+- [aramboi](https://github.com/aramboi)
+- [kenanpelit](https://github.com/kenanpelit)
 
 
 ### License
