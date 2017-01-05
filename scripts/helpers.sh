@@ -29,17 +29,19 @@ get_velocity()
     local old_value=$2
 
     # Consts
-    local THOUSAND=1000
-    local MILLION=100000
+    local THOUSAND=1024
+    local MILLION=1048576
 
     local vel=$(( new_value - old_value ))
     local velKB=$(( vel / THOUSAND ))
     local velMB=$(( vel / MILLION ))
 
     if [[ $velMB != 0 ]] ; then
-        echo -n "$velMB MB/s"
+        displayValue=`echo "scale=2;$vel/$MILLION" | bc`
+        echo -n "$displayValue MB/s"
     elif [[ $velKB != 0 ]] ; then
-        echo -n "$velKB KB/s";
+        displayValue=`echo "scale=2;$vel/$THOUSAND" | bc`
+        echo -n "$displayValue KB/s"
     else
         echo -n "$vel B/s";
     fi
@@ -85,17 +87,19 @@ sum_speed()
 {
     local column=$1
 
-    # TODO Make this a parameter option. Set through tmux config
-    local interfaces=(
-        "eth0"
-        "wlan0"
-    )
+    # Get all the network interfaces available
+    declare -a interfaces=()
+        for interface in /sys/class/net/*; do
+        interfaces+=("$(basename $interface)");
+    done
+
 
     local line=""
     local val=0
     for intf in ${interfaces[@]} ; do
         line=$(cat /proc/net/dev | grep "$intf" | cut -d':' -f 2)
-        let val+=$(echo -n $line | cut -d' ' -f $column)
+        speed="$(echo -n $line | cut -d' ' -f $column)"
+        let val+=${speed:=0}
     done
 
     echo $val
@@ -113,5 +117,3 @@ command_exists() {
 	local command="$1"
 	type "$command" >/dev/null 2>&1
 }
-
-
