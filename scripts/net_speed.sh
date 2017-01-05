@@ -8,6 +8,6 @@ main()
     local download=$("$CURRENT_DIR/download_speed.sh")
     local upload=$("$CURRENT_DIR/upload_speed.sh")
 
-    printf "#[fg=#666666]⇣ %10s #[fg=#666666]⇡ %10s " "$download" "$upload"
+    printf "⇣ %10s ⇡ %10s" "$download" "$upload"
 }
 main
