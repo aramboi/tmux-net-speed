@@ -87,12 +87,14 @@ sum_speed()
 {
     local column=$1
 
-    # Get all the network interfaces available
+    # Get the network interfaces needed
     declare -a interfaces=()
         for interface in /sys/class/net/*; do
-        interfaces+=("$(basename $interface)");
-    done
-
+            intf=$(basename $interface)
+            if [[ $intf == eth* || $intf == wl* || $intf == en* ]]; then
+                interfaces+=("$intf");
+            fi
+        done
 
     local line=""
     local val=0
